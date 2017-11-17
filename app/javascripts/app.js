@@ -18,7 +18,7 @@ import mail_artifacts from '../../build/contracts/Mail.json';
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts);
 
-function allEvents(ev, cb) {
+function allEvents(to, ev, cb) {
 	ev({}, {fromBlock: '0', toBlock: 'latest'}).get((error, results) => {
 		if (error) return cb(error);
 		results.forEach(result => cb(null, result));
@@ -58,16 +58,22 @@ window.App = {
 	},
 
 	getMail: async () => {
-		const mail = await Mail.deployed();
-		allEvents(mail.Mail, (err, email) => {
-			console.log(email);
+		web3.eth.getAccounts(async (err, accounts) => {
+			const mail = await Mail.deployed();
+			allEvents(accounts[0], mail.Mail, (err, email) => {
+				console.log(email);
+			});
 		});
 	},
-	sendMail: async(to, subject, body) => {
-		const client = new WebTorrent();
-		client.seed([to, subject, body], function (torrent) {
-			console.log('Client is seeding ' + torrent.magnetURI)
-		})
+	sendMail: async(to, message) => {
+		web3.eth.getAccounts(async (err, accounts) => {
+			const client = new WebTorrent();
+			client.seed(new Buffer(message), async (torrent) => {
+				const mail = await Mail.deployed();
+				const pubKey = await mail.getPub(to, {from: accounts[0]});
+				mail.sendMail(to, torrent.magnetURI, {from: accounts[0]});
+			});
+		});
 	},
 
 	encrypt: async function (msg, publicKey) {
