@@ -90,11 +90,7 @@ window.App = {
 			}));
 		});
 	},
-
-	autoSeed: async () => {
-
-	},
-
+	
 	encrypt: async function (msg, pubKey) {
     let key = new NodeRSA();
     key.importKey(pubKey, 'pkcs1-public');
