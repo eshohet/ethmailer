@@ -17,9 +17,10 @@ import mail_artifacts from '../../build/contracts/Mail.json';
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts);
+let client = new WebTorrent();
 
-function allEvents(to, ev, cb) {
-	ev({}, {fromBlock: '0', toBlock: 'latest'}).get((error, results) => {
+function allEvents(_to, ev, cb) {
+	ev({to: _to}, {fromBlock: '0', toBlock: 'latest'}).get((error, results) => {
 		if (error) return cb(error);
 		results.forEach(result => cb(null, result));
 		ev().watch(cb);
@@ -31,6 +32,7 @@ window.App = {
 	start: () => {
 		Mail.setProvider(web3.currentProvider);
 		App.getPublicKey();
+		App.autoSeed();
 	},
 
 	getPublicKey: async () => {
@@ -61,19 +63,34 @@ window.App = {
 		web3.eth.getAccounts(async (err, accounts) => {
 			const mail = await Mail.deployed();
 			allEvents(accounts[0], mail.Mail, (err, email) => {
-				console.log(email);
+				const magnet = email.args.hash;
+				console.log(magnet);
+				client.add(magnet, function (torrent) {
+					// Torrents can contain many files. Let's use the .mp4 file
+					console.log(torrent);
+					// Render all files into to the page
+					torrent.files.forEach(function (file) {
+						file.renderTo('#files');
+					})
+
+				})
 			});
 		});
 	},
+
 	sendMail: async(to, message) => {
 		web3.eth.getAccounts(async (err, accounts) => {
 			const client = new WebTorrent();
 			client.seed(new Buffer(message), async (torrent) => {
 				const mail = await Mail.deployed();
-				const pubKey = await mail.getPub(to, {from: accounts[0]});
+				const pubKey = await mail.getPub.call(to, {from: accounts[0]});
 				mail.sendMail(to, torrent.magnetURI, {from: accounts[0]});
 			});
 		});
+	},
+
+	autoSeed: async () => {
+
 	},
 
 	encrypt: async function (msg, publicKey) {
