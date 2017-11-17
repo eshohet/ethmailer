@@ -4,9 +4,9 @@ import * as $ from 'jquery';
 // Import libraries we need.
 import {default as Web3} from 'web3';
 import {default as contract} from 'truffle-contract';
-import {default as crypto} from 'crypto';
-import {default as eccrypto} from 'eccrypto';
 import {default as ipfs} from 'ipfs-js';
+import {default as NodeRSA} from 'node-rsa';
+
 
 // Import our contract artifacts and turn them into usable abstractions.
 import mail_artifacts from '../../build/contracts/Mail.json';
@@ -52,10 +52,11 @@ window.App = {
 		});
 	},
 	newUser: async() => {
-		const privateKey = crypto.randomBytes(32);
-		const publicKey = eccrypto.getPublic(privateKey);
-		window.localStorage.setItem('private', privateKey);
-		App.registerPubKey(Buffer.from(publicKey).toString('hex'));
+    const key = new NodeRSA({b: 512});
+    const priv = key.exportKey('pkcs1-private');
+    const pub = key.exportKey('pkcs1-public');
+    window.localStorage.setItem('private', priv);
+    App.registerPubKey(pub);
 	},
 
 	getMail: async () => {
@@ -65,9 +66,10 @@ window.App = {
 				const hash = email.args.hash;
         ipfs.setProvider({host: 'localhost', port: '5001'});
         ipfs.catText(hash, (err, data) => {
-        	console.log(err, data);
         	if(data) {
-        		$("#messages").append('<h1>' + data + '</h1><br><br>');
+        		App.decrypt(data).then((decrypted) => {
+              $("#messages").append('<h1>' + decrypted + '</h1><br><br>');
+            });
 					}
 				})
       });
@@ -79,12 +81,13 @@ window.App = {
       const mail = await Mail.deployed();
       const pubKey = await mail.getPub.call(to, {from: accounts[0]});
       ipfs.setProvider({host: ipfsHost, port: '5001'});
-      ipfs.add(message, (err, hash) => {
-      	console.log(err, hash);
-      	if(hash) {
-      		mail.sendMail(to, hash, {from: accounts[0]});
-				}
-			});
+      App.encrypt(message, pubKey).then((encrypted => {
+        ipfs.add(encrypted, (err, hash) => {
+          if(hash) {
+            mail.sendMail(to, hash, {from: accounts[0]});
+          }
+        });
+			}));
 		});
 	},
 
@@ -92,13 +95,16 @@ window.App = {
 
 	},
 
-	encrypt: async function (msg, publicKey) {
-		//encrypts photo
-		return eccrypto.encrypt(publicKey, new Buffer(msg));
+	encrypt: async function (msg, pubKey) {
+    let key = new NodeRSA();
+    key.importKey(pubKey, 'pkcs1-public');
+    return await key.encrypt(msg, 'base64');
 	},
-	decrypt: function (msg, privateKey) {
-		//decrypts photo
-		return eccrypto.decrypt(privateKey, msg);
+	decrypt: async function (msg) {
+    let key = new NodeRSA();
+    const priv = window.localStorage.getItem('private');
+    key.importKey(priv, 'pkcs1-private');
+    return await key.decrypt(msg, 'utf8');
 	},
 
 
