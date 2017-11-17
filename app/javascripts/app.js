@@ -11,9 +11,9 @@ import {default as NodeRSA} from 'node-rsa';
 // Import our contract artifacts and turn them into usable abstractions.
 import mail_artifacts from '../../build/contracts/Mail.json';
 
-// import swal from 'sweetalert2';
+import swal from 'sweetalert2';
 
-// require('sweetalert2/dist/sweetalert2.min.css');
+require('sweetalert2/dist/sweetalert2.min.css');
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts);
@@ -31,7 +31,6 @@ window.App = {
 	start: () => {
 		Mail.setProvider(web3.currentProvider);
 		App.getPublicKey();
-		App.autoSeed();
 	},
 
 	getPublicKey: async () => {
@@ -39,6 +38,9 @@ window.App = {
 			const account = accounts[0];
 			const mail = await Mail.deployed();
 			const pubKey = await mail.getPub.call(account, {from: account});
+			if(pubKey === '') {
+				swal('Welcome!', 'Please click new key to generate a keypair locally', 'info');
+			}
 			$('#public_key').html(pubKey);
 			this.publicKey = pubKey;
 			App.getMail();
@@ -64,11 +66,11 @@ window.App = {
 			const mail = await Mail.deployed();
 			allEvents(accounts[0], mail.Mail, (err, email) => {
 				const hash = email.args.hash;
-        ipfs.setProvider({host: 'localhost', port: '5001'});
+        ipfs.setProvider({host: $('#ipfsHost').val(), port: '5001'});
         ipfs.catText(hash, (err, data) => {
         	if(data) {
         		App.decrypt(data).then((decrypted) => {
-              $("#messages").append('<h1>' + decrypted + '</h1><br><br>');
+              $("#messages").append(`<tr><td> ${email.args.from}: ${decrypted} </td></tr>`);
             });
 					}
 				})
@@ -76,11 +78,13 @@ window.App = {
 		});
 	},
 
-	sendMail: async(to, message, ipfsHost) => {
+	sendMail: async() => {
 		web3.eth.getAccounts(async (err, accounts) => {
+			const to = $('#to').val();
+			const message = $('#message').val();
       const mail = await Mail.deployed();
       const pubKey = await mail.getPub.call(to, {from: accounts[0]});
-      ipfs.setProvider({host: ipfsHost, port: '5001'});
+      ipfs.setProvider({host: $('#ipfsHost').val(), port: '5001'});
       App.encrypt(message, pubKey).then((encrypted => {
         ipfs.add(encrypted, (err, hash) => {
           if(hash) {
@@ -90,7 +94,7 @@ window.App = {
 			}));
 		});
 	},
-	
+
 	encrypt: async function (msg, pubKey) {
     let key = new NodeRSA();
     key.importKey(pubKey, 'pkcs1-public');
