@@ -38,6 +38,7 @@
     "crypto": "^1.0.1",
     "eccrypto": "^1.0.3",
     "jquery": "^3.2.1",
-    "sweetalert2": "^7.0.0"
+    "sweetalert2": "^7.0.0",
+    "webtorrent": "^0.98.20"
   }
 }

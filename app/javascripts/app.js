@@ -6,13 +6,14 @@ import {default as Web3} from 'web3';
 import {default as contract} from 'truffle-contract';
 import {default as crypto} from 'crypto';
 import {default as eccrypto} from 'eccrypto';
+import {default as WebTorrent} from 'webtorrent';
 
 // Import our contract artifacts and turn them into usable abstractions.
 import mail_artifacts from '../../build/contracts/Mail.json';
 
-import swal from 'sweetalert2';
+// import swal from 'sweetalert2';
 
-require('sweetalert2/dist/sweetalert2.min.css');
+// require('sweetalert2/dist/sweetalert2.min.css');
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts);
@@ -63,7 +64,10 @@ window.App = {
 		});
 	},
 	sendMail: async(to, subject, body) => {
-		//TODO
+		const client = new WebTorrent();
+		client.seed([to, subject, body], function (torrent) {
+			console.log('Client is seeding ' + torrent.magnetURI)
+		})
 	},
 
 	encrypt: async function (msg, publicKey) {

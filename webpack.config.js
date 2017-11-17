@@ -13,6 +13,10 @@ module.exports = {
       { from: './app/index.html', to: "index.html" }
     ])
   ],
+  target: 'web',
+  node: {
+      fs: 'empty'
+  },
   module: {
     rules: [
       {
