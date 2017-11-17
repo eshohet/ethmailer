@@ -33,5 +33,11 @@
     "web3": "^0.20.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "eccrypto": "^1.0.3",
+    "jquery": "^3.2.1",
+    "sweetalert2": "^7.0.0"
   }
 }
