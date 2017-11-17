@@ -6,7 +6,7 @@ import {default as Web3} from 'web3';
 import {default as contract} from 'truffle-contract';
 import {default as crypto} from 'crypto';
 import {default as eccrypto} from 'eccrypto';
-import {default as WebTorrent} from 'webtorrent';
+import {default as ipfs} from 'ipfs-js';
 
 // Import our contract artifacts and turn them into usable abstractions.
 import mail_artifacts from '../../build/contracts/Mail.json';
@@ -17,7 +17,6 @@ import mail_artifacts from '../../build/contracts/Mail.json';
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts);
-let client = new WebTorrent();
 
 function allEvents(_to, ev, cb) {
 	ev({to: _to}, {fromBlock: '0', toBlock: 'latest'}).get((error, results) => {
@@ -63,28 +62,24 @@ window.App = {
 		web3.eth.getAccounts(async (err, accounts) => {
 			const mail = await Mail.deployed();
 			allEvents(accounts[0], mail.Mail, (err, email) => {
-				const magnet = email.args.hash;
-				console.log(magnet);
-				client.add(magnet, function (torrent) {
-					// Torrents can contain many files. Let's use the .mp4 file
-					console.log(torrent);
-					// Render all files into to the page
-					torrent.files.forEach(function (file) {
-						file.renderTo('#files');
-					})
-
-				})
-			});
+				const hash = email.args.hash;
+        $.get('http://localhost:5001/ipfs/' + hash, (data) => {
+					console.log(data);
+        });
+      });
 		});
 	},
 
-	sendMail: async(to, message) => {
+	sendMail: async(to, message, ipfsHost) => {
 		web3.eth.getAccounts(async (err, accounts) => {
-			const client = new WebTorrent();
-			client.seed(new Buffer(message), async (torrent) => {
-				const mail = await Mail.deployed();
-				const pubKey = await mail.getPub.call(to, {from: accounts[0]});
-				mail.sendMail(to, torrent.magnetURI, {from: accounts[0]});
+      const mail = await Mail.deployed();
+      const pubKey = await mail.getPub.call(to, {from: accounts[0]});
+      ipfs.setProvider({host: ipfsHost, port: '5001'});
+      ipfs.add(message, (err, hash) => {
+      	console.log(err, hash);
+      	if(hash) {
+      		mail.sendMail(to, hash, {from: accounts[0]});
+				}
 			});
 		});
 	},

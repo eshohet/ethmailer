@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server --port 3000"
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "html-webpack-plugin": "^2.28.0",
+    "ipfs": "^0.26.0",
     "json-loader": "^0.5.4",
     "style-loader": "^0.13.1",
     "truffle-contract": "^1.1.11",
@@ -37,6 +38,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "eccrypto": "^1.0.3",
+    "ipfs-js": "0.0.11",
     "jquery": "^3.2.1",
     "sweetalert2": "^7.0.0",
     "webtorrent": "^0.98.20"
