@@ -9,7 +9,7 @@ import {default as NodeRSA} from 'node-rsa';
 
 
 // Import our contract artifacts and turn them into usable abstractions.
-import mail_artifacts from '../../build/contracts/Mail.json';
+import mail_artifacts from './../Mail.json';
 
 import swal from 'sweetalert2';
 

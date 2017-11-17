@@ -51121,8 +51121,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ipfs_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_node_rsa__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_node_rsa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_node_rsa__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__build_contracts_Mail_json__ = __webpack_require__(150);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__build_contracts_Mail_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__build_contracts_Mail_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Mail_json__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Mail_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Mail_json__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_sweetalert2__ = __webpack_require__(156);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_sweetalert2__);
 // Import the page's CSS. Webpack will know what to do with it.
@@ -51143,7 +51143,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__(155);
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
-let Mail = __WEBPACK_IMPORTED_MODULE_3_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_6__build_contracts_Mail_json___default.a);
+let Mail = __WEBPACK_IMPORTED_MODULE_3_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_6__Mail_json___default.a);
 
 function allEvents(_to, ev, cb) {
 	ev({to: _to}, {fromBlock: '0', toBlock: 'latest'}).get((error, results) => {
