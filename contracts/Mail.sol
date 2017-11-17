@@ -6,8 +6,8 @@ contract Mail {
 
     event Mail(address indexed to, address indexed from, string hash);
 
-    function getPub(address receiver) public returns (string) {
-        return pubKeyRegistry[receiver];
+    function getPub(address _address) public returns (string) {
+        return pubKeyRegistry[_address];
     }
 
     function updatePubRegistry(string pubKey) public {
