@@ -41,16 +41,20 @@ window.App = {
 			if(pubKey === '') {
 				swal('Welcome!', 'Please click new key to generate a keypair locally', 'info');
 			}
-			$('#public_key').html(pubKey);
-			this.publicKey = pubKey;
-			App.getMail();
+			else {
+        $('#public_key').html(pubKey);
+        App.getMail();
+			}
+
 		});
 	},
 	registerPubKey: async (pubKey) => {
 		web3.eth.getAccounts(async (err, accounts) => {
 			const account = accounts[0];
 			const mail = await Mail.deployed();
-			mail.updatePubRegistry(pubKey, {from: account});
+			await mail.updatePubRegistry(pubKey, {from: account});
+      $('#public_key').html(pubKey);
+			App.getMail();
 		});
 	},
 	newUser: async() => {
