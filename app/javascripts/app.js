@@ -66,6 +66,9 @@ window.App = {
         ipfs.setProvider({host: 'localhost', port: '5001'});
         ipfs.catText(hash, (err, data) => {
         	console.log(err, data);
+        	if(data) {
+        		$("#messages").append('<h1>' + data + '</h1><br><br>');
+					}
 				})
       });
 		});
