@@ -63,9 +63,10 @@ window.App = {
 			const mail = await Mail.deployed();
 			allEvents(accounts[0], mail.Mail, (err, email) => {
 				const hash = email.args.hash;
-        $.get('http://localhost:5001/ipfs/' + hash, (data) => {
-					console.log(data);
-        });
+        ipfs.setProvider({host: 'localhost', port: '5001'});
+        ipfs.catText(hash, (err, data) => {
+        	console.log(err, data);
+				})
       });
 		});
 	},
