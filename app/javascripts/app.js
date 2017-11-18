@@ -28,10 +28,22 @@ function allEvents(_to, ev, cb) {
 
 window.App = {
 
-	start: () => {
-		Mail.setProvider(web3.currentProvider);
-		App.getPublicKey();
-	},
+	start:  async () => {
+    Mail.setProvider(web3.currentProvider);
+    let mail;
+		let isConnected = true;
+    try {
+      mail = await Mail.deployed();
+    }
+    catch (e) {
+      swal('Incorrect Network', 'Please connect to the rinkeby network to continue', 'error');
+      isConnected = false;
+    }
+
+    if(isConnected) {
+    	App.getPublicKey();
+		}
+  },
 
 	getPublicKey: async () => {
 		web3.eth.getAccounts(async (err, accounts) => {
@@ -125,11 +137,9 @@ window.addEventListener('load', function () {
 	if (typeof web3 !== 'undefined') {
 		// Use Mist/MetaMask's provider
 		window.web3 = new Web3(web3.currentProvider);
-	} else {
-		console.warn('No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live, as it\'s inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask');
-		// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-		window.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:9545'));
+    App.start();
+  } else {
+		swal('Metamask/Mist not detected', 'Please install either to continue', 'error');
 	}
 
-	App.start();
 });

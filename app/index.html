@@ -20,22 +20,6 @@
         </div>
     </nav>
 
-    <div>Public Key: <span id="public_key"></span></div>
-    <button onclick="App.newUser();">Register new key pair</button><br><br>
-    IPFS Host: <input type="text" id="ipfsHost" value="34.228.168.120" /><br><br>
-    To: <input id="to" placeholder="" /><br>
-    Message: <textarea id="message"></textarea>
-    <button onclick="App.sendMail();">Send ethereum mail</button>
-    <br>
-    <table>
-        <thead>
-            <tr>From</tr>
-            <tr>Message</tr>
-        </thead>
-        <tbody id="messages">
-        </tbody>
-    </table>
-
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large red">
             <i class="large material-icons">add</i>
@@ -45,7 +29,7 @@
             <li><a class="btn-floating blue"><i class="material-icons">email</i></a></li>
         </ul>
     </div>
-
+    
     <!-- Compiled and minified JavaScript -->
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
