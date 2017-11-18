@@ -19,7 +19,7 @@ require('sweetalert2/dist/sweetalert2.min.css');
 let Mail = contract(mail_artifacts);
 
 function allEvents(_to, ev, cb) {
-	ev({to: _to}, {fromBlock: '0', toBlock: 'latest'}).get((error, results) => {
+	ev({to: _to}, {fromBlock: '0', toBlock: 'pending'}).get((error, results) => {
 		if (error) return cb(error);
 		results.forEach(result => cb(null, result));
 		ev().watch(cb);
@@ -83,7 +83,7 @@ window.App = {
 			const mail = await Mail.deployed();
 			allEvents(accounts[0], mail.Mail, (err, email) => {
 				const hash = email.args.hash;
-        ipfs.setProvider({host: $('#ipfsHost').val(), port: '5001'});
+        ipfs.setProvider({host: '34.228.168.120', port: '5001'});
         ipfs.catText(hash, (err, data) => {
         	if(data) {
         		App.decrypt(data).then((decrypted) => {
@@ -97,7 +97,6 @@ window.App = {
                             </p>
                         </a>
                     </li>`);
-              // $("#messages").append(`<tr><td> ${email.args.from}: ${decrypted} </td></tr>`);
             });
 					}
 				})
@@ -105,13 +104,11 @@ window.App = {
 		});
 	},
 
-	sendMail: async() => {
+	sendMail: async(to, message, ipfsHost) => {
 		web3.eth.getAccounts(async (err, accounts) => {
-			const to = $('#to').val();
-			const message = $('#message').val();
       const mail = await Mail.deployed();
       const pubKey = await mail.getPub.call(to, {from: accounts[0]});
-      ipfs.setProvider({host: $('#ipfsHost').val(), port: '5001'});
+      ipfs.setProvider({host: ipfsHost, port: '5001'});
       App.encrypt(message, pubKey).then((encrypted => {
         ipfs.add(encrypted, (err, hash) => {
           if(hash) {
@@ -132,7 +129,18 @@ window.App = {
     let key = new NodeRSA();
     const priv = window.localStorage.getItem('private');
     key.importKey(priv, 'pkcs1-private');
-    return await key.decrypt(msg, 'utf8');
+    let dec;
+
+    try {
+      dec = await key.decrypt(msg, 'utf8');
+    }
+    catch(e) {
+    	console.log(e);
+		}
+		if(dec !== undefined)
+			return dec;
+    else
+    	return "unable to decrypt communication";
 	},
 
 	showInfo: function () {
