@@ -51221,6 +51221,7 @@ window.App = {
           if(hash) {
             mail.sendMail(to, hash, {from: accounts[0]});
           }
+          if(err) console.log(err);
         });
 			}));
 		});
