@@ -5,3 +5,169 @@ nav {
 .brand-logo {
   margin-left: 10px;
 }
+
+.bold {
+  font-weight: 600;
+}
+
+.no-space, body main .padding-r .receiver,
+body main .padding-r .subject, body main .padding-r .prefix {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.margin-side {
+  margin: 0 15px !important;
+}
+
+body {
+  background-color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+@media only screen and (max-width: 992px) {
+  body header,
+  body main,
+  body footer {
+    padding-left: 0;
+  }
+}
+body nav .collapsible:hover {
+  background-color: #e0f2f1;
+}
+body nav .collapsible li.active {
+  background-color: #4285f4;
+}
+body nav .collapsible li a:hover {
+  background-color: #4285f4;
+}
+body nav .search-field {
+  width: 60px;
+  transition: width 0.8s ease;
+}
+body nav .search-field:hover {
+  transition: width 0.8s ease;
+  width: 260px;
+}
+body nav .search-field label {
+  margin-left: 2px;
+}
+body nav .button-collapse {
+  margin-left: 10px;
+}
+body nav .side-nav-user .side-nav-user-link {
+  padding-bottom: 110px;
+}
+body nav .side-nav-user .side-nav-user-avatar {
+  width: 40px;
+  margin: 12px 12px 0px 12px;
+  display: inline;
+}
+body nav .side-nav-user .side-nav-user-name {
+  font-size: 1.1rem;
+  margin: 0;
+  margin-bottom: -12px;
+}
+body nav .side-nav-user .side-nav-user-mail {
+  font-size: 0.8rem;
+}
+body nav .side-nav-user .side-nav-user-mail .side-nav-account {
+  margin-top: 8px;
+}
+body nav .side-nav-user .side-nav-user-mail .side-nav-account .caret {
+  margin-top: -25px;
+  color: #4285f4 !important;
+}
+body nav .side-nav-user .select-dropdown {
+  border-bottom: none !important;
+}
+body nav .side-nav-dropdown {
+  margin: 0 !important;
+  padding: 0 15px;
+}
+body main .collection,
+body main .collapsible,
+body main .collapsible-header {
+  border: none;
+}
+body main .padding-l {
+  padding: 10px 5px 5px 10px !important;
+}
+body main .padding-l .new-mail {
+  background-color: #f5f5f5;
+}
+body main .padding-l .scrollbar-content {
+  cursor: pointer;
+  margin: 0;
+  overflow: auto;
+  position: relative;
+  background: #4285f4;
+  min-height: 340px;
+  height: 76vh;
+}
+@media only screen and (max-width: 600px) {
+  body main .padding-l .scrollbar-content {
+    min-height: 340px;
+    max-height: 340px;
+  }
+}
+body main .padding-l .scrollbar-content .mCSB_container {
+  margin: 0 !important;
+}
+body main .padding-l .scrollbar-content .mCSB_scrollTools {
+  margin-right: 8px;
+}
+body main .padding-l .scrollbar-content .mCSB_scrollTools .mCSB_draggerContainer {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+body main .padding-l .scrollbar-content .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger_bar {
+  padding: 30px 0 0 0;
+  background-color: #4285f4 !important;
+}
+@media only screen and (min-width: 601px) {
+  body main .padding-r {
+    padding: 20px 10px 10px 5px !important;
+  }
+}
+body main .padding-r .receiver,
+body main .padding-r .subject {
+  height: 20px;
+  position: relative;
+}
+body main .padding-r .receiver span,
+body main .padding-r .subject span {
+  height: 20px;
+  margin-left: 65px;
+  border-bottom: none !important;
+  box-shadow: none;
+}
+body main .padding-r .prefix {
+  display: inline;
+  width: auto !important;
+  font-size: 1rem !important;
+}
+@media only screen and (min-width: 601px) {
+  body main .padding-r .mail-top {
+    margin-top: -10px;
+  }
+}
+body main .padding-r .mail-text {
+  padding: 15px 25px;
+  text-align: justify;
+  line-height: 175%;
+}
+body main .padding-r .mail-attach {
+  margin: 25px 5px;
+}
+body main .padding-r .mail-attach .divider {
+  margin-bottom: 10px;
+}
