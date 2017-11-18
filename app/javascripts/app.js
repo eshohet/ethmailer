@@ -42,6 +42,7 @@ window.App = {
 				swal('Welcome!', 'Please click new key to generate a keypair locally', 'info');
 			}
 			else {
+				$("#navEthereumAddress").html(accounts[0]);
         $('#public_key').html(pubKey);
         App.getMail();
 			}
@@ -112,10 +113,14 @@ window.App = {
     return await key.decrypt(msg, 'utf8');
 	},
 
+	showInfo: function () {
+
+	}
 
 };
 
 window.addEventListener('load', function () {
+
 	// Checking if Web3 has been injected by the browser (Mist/MetaMask)
 	if (typeof web3 !== 'undefined') {
 		// Use Mist/MetaMask's provider

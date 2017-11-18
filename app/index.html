@@ -6,10 +6,20 @@
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
 <body>
-    <h1>Ethereum Mail</h1>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Ethereum Mail</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#" onclick="App.showInfo();" id="navEthereumAddress"></a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div>Public Key: <span id="public_key"></span></div>
     <button onclick="App.newUser();">Register new key pair</button><br><br>
     IPFS Host: <input type="text" id="ipfsHost" value="34.228.168.120" /><br><br>
@@ -26,7 +36,21 @@
         </tbody>
     </table>
 
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">add</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating blue"><i class="material-icons">enhanced_encryption</i></a></li>
+            <li><a class="btn-floating blue"><i class="material-icons">email</i></a></li>
+        </ul>
+    </div>
+
     <!-- Compiled and minified JavaScript -->
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="./app.js"></script>
 
