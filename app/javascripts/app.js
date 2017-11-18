@@ -55,7 +55,7 @@ window.App = {
 			}
 			else {
 				$("#navEthereumAddress").html(accounts[0]);
-        $('#public_key').html(pubKey);
+        // $('#public_key').html(pubKey);
         App.getMail();
 			}
 
@@ -87,7 +87,17 @@ window.App = {
         ipfs.catText(hash, (err, data) => {
         	if(data) {
         		App.decrypt(data).then((decrypted) => {
-              $("#messages").append(`<tr><td> ${email.args.from}: ${decrypted} </td></tr>`);
+        			$("#content-l").append(`
+                    <li class="income-box-mail collection-item avatar new-mail bold">
+                        <a href="#!">
+                            <i class="material-icons circle green">face</i>
+                            <span class="income-box-sender title">${email.args.from}</span>
+                            <p class=" grey-text">
+                                <span class="income-box-text truncate">${decrypted}</span>
+                            </p>
+                        </a>
+                    </li>`);
+              // $("#messages").append(`<tr><td> ${email.args.from}: ${decrypted} </td></tr>`);
             });
 					}
 				})
