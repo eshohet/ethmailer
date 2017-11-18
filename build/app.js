@@ -51155,10 +51155,22 @@ function allEvents(_to, ev, cb) {
 
 window.App = {
 
-	start: () => {
-		Mail.setProvider(web3.currentProvider);
-		App.getPublicKey();
-	},
+	start:  async () => {
+    Mail.setProvider(web3.currentProvider);
+    let mail;
+		let isConnected = true;
+    try {
+      mail = await Mail.deployed();
+    }
+    catch (e) {
+      __WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Incorrect Network', 'Please connect to the rinkeby network to continue', 'error');
+      isConnected = false;
+    }
+
+    if(isConnected) {
+    	App.getPublicKey();
+		}
+  },
 
 	getPublicKey: async () => {
 		web3.eth.getAccounts(async (err, accounts) => {
@@ -51169,7 +51181,8 @@ window.App = {
 				__WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Welcome!', 'Please click new key to generate a keypair locally', 'info');
 			}
 			else {
-        __WEBPACK_IMPORTED_MODULE_1_jquery__('#public_key').html(pubKey);
+				__WEBPACK_IMPORTED_MODULE_1_jquery__("#navEthereumAddress").html(accounts[0]);
+        // $('#public_key').html(pubKey);
         App.getMail();
 			}
 
@@ -51201,7 +51214,17 @@ window.App = {
         __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a.catText(hash, (err, data) => {
         	if(data) {
         		App.decrypt(data).then((decrypted) => {
-              __WEBPACK_IMPORTED_MODULE_1_jquery__("#messages").append(`<tr><td> ${email.args.from}: ${decrypted} </td></tr>`);
+        			__WEBPACK_IMPORTED_MODULE_1_jquery__("#content-l").append(`
+                    <li class="income-box-mail collection-item avatar new-mail bold">
+                        <a href="#!">
+                            <i class="material-icons circle green">face</i>
+                            <span class="income-box-sender title">${email.args.from}</span>
+                            <p class=" grey-text">
+                                <span class="income-box-text truncate">${decrypted}</span>
+                            </p>
+                        </a>
+                    </li>`);
+              // $("#messages").append(`<tr><td> ${email.args.from}: ${decrypted} </td></tr>`);
             });
 					}
 				})
@@ -51239,21 +51262,23 @@ window.App = {
     return await key.decrypt(msg, 'utf8');
 	},
 
+	showInfo: function () {
+
+	}
 
 };
 
 window.addEventListener('load', function () {
+
 	// Checking if Web3 has been injected by the browser (Mist/MetaMask)
 	if (typeof web3 !== 'undefined') {
 		// Use Mist/MetaMask's provider
 		window.web3 = new __WEBPACK_IMPORTED_MODULE_2_web3___default.a(web3.currentProvider);
-	} else {
-		console.warn('No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live, as it\'s inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask');
-		// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-		window.web3 = new __WEBPACK_IMPORTED_MODULE_2_web3___default.a(new __WEBPACK_IMPORTED_MODULE_2_web3___default.a.providers.HttpProvider('http://127.0.0.1:9545'));
+    App.start();
+  } else {
+		__WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Metamask/Mist not detected', 'Please install either to continue', 'error');
 	}
 
-	App.start();
 });
 
 
@@ -69966,7 +69991,7 @@ exports = module.exports = __webpack_require__(116)();
 
 
 // module
-exports.push([module.i, "body {\n  font-family: \"Open Sans\", sans-serif;\n}\n\nlabel {\n  display: inline-block;\n  width: 100px;\n}\n\ninput {\n  width: 500px;\n  padding: 5px;\n  font-size: 16px;\n}\n\nbutton {\n  font-size: 16px;\n  padding: 5px;\n}\n\nh1, h2 {\n  display: inline-block;\n  vertical-align: middle;\n  margin-top: 0px;\n  margin-bottom: 10px;\n}\n\nh2 {\n  color: #AAA;\n  font-size: 32px;\n}\n\nh3 {\n  font-weight: normal;\n  color: #AAA;\n  font-size: 24px;\n}\n\n.black {\n  color: black;\n}\n\n#balance {\n  color: black;\n}\n\n.hint {\n  color: #666;\n}\n", ""]);
+exports.push([module.i, "nav {\n  background-color: #4285f4;\n}\n\n.brand-logo {\n  margin-left: 10px;\n}\n\n.bold {\n  font-weight: 600;\n}\n\n.no-space, body main .padding-r .receiver,\nbody main .padding-r .subject, body main .padding-r .prefix {\n  padding: 0 !important;\n  margin: 0 !important;\n}\n\n.no-margin {\n  margin: 0 !important;\n}\n\n.no-padding {\n  padding: 0 !important;\n}\n\n.margin-side {\n  margin: 0 15px !important;\n}\n\nbody {\n  background-color: white;\n  font-family: \"Roboto\", sans-serif;\n}\n\n@media only screen and (max-width: 992px) {\n  body header,\n  body main,\n  body footer {\n    padding-left: 0;\n  }\n}\nbody nav .collapsible:hover {\n  background-color: #e0f2f1;\n}\nbody nav .collapsible li.active {\n  background-color: #4285f4;\n}\nbody nav .collapsible li a:hover {\n  background-color: #4285f4;\n}\nbody nav .search-field {\n  width: 60px;\n  transition: width 0.8s ease;\n}\nbody nav .search-field:hover {\n  transition: width 0.8s ease;\n  width: 260px;\n}\nbody nav .search-field label {\n  margin-left: 2px;\n}\nbody nav .button-collapse {\n  margin-left: 10px;\n}\nbody nav .side-nav-user .side-nav-user-link {\n  padding-bottom: 110px;\n}\nbody nav .side-nav-user .side-nav-user-avatar {\n  width: 40px;\n  margin: 12px 12px 0px 12px;\n  display: inline;\n}\nbody nav .side-nav-user .side-nav-user-name {\n  font-size: 1.1rem;\n  margin: 0;\n  margin-bottom: -12px;\n}\nbody nav .side-nav-user .side-nav-user-mail {\n  font-size: 0.8rem;\n}\nbody nav .side-nav-user .side-nav-user-mail .side-nav-account {\n  margin-top: 8px;\n}\nbody nav .side-nav-user .side-nav-user-mail .side-nav-account .caret {\n  margin-top: -25px;\n  color: #4285f4 !important;\n}\nbody nav .side-nav-user .select-dropdown {\n  border-bottom: none !important;\n}\nbody nav .side-nav-dropdown {\n  margin: 0 !important;\n  padding: 0 15px;\n}\nbody main .collection,\nbody main .collapsible,\nbody main .collapsible-header {\n  border: none;\n}\nbody main .padding-l {\n  padding: 10px 5px 5px 10px !important;\n}\nbody main .padding-l .new-mail {\n  background-color: #f5f5f5;\n}\nbody main .padding-l .scrollbar-content {\n  cursor: pointer;\n  margin: 0;\n  overflow: auto;\n  position: relative;\n  background: #4285f4;\n  min-height: 340px;\n  height: 76vh;\n}\n@media only screen and (max-width: 600px) {\n  body main .padding-l .scrollbar-content {\n    min-height: 340px;\n    max-height: 340px;\n  }\n}\nbody main .padding-l .scrollbar-content .mCSB_container {\n  margin: 0 !important;\n}\nbody main .padding-l .scrollbar-content .mCSB_scrollTools {\n  margin-right: 8px;\n}\nbody main .padding-l .scrollbar-content .mCSB_scrollTools .mCSB_draggerContainer {\n  margin-top: 15px;\n  margin-bottom: 30px;\n}\nbody main .padding-l .scrollbar-content .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger_bar {\n  padding: 30px 0 0 0;\n  background-color: #4285f4 !important;\n}\n@media only screen and (min-width: 601px) {\n  body main .padding-r {\n    padding: 20px 10px 10px 5px !important;\n  }\n}\nbody main .padding-r .receiver,\nbody main .padding-r .subject {\n  height: 20px;\n  position: relative;\n}\nbody main .padding-r .receiver span,\nbody main .padding-r .subject span {\n  height: 20px;\n  margin-left: 65px;\n  border-bottom: none !important;\n  box-shadow: none;\n}\nbody main .padding-r .prefix {\n  display: inline;\n  width: auto !important;\n  font-size: 1rem !important;\n}\n@media only screen and (min-width: 601px) {\n  body main .padding-r .mail-top {\n    margin-top: -10px;\n  }\n}\nbody main .padding-r .mail-text {\n  padding: 15px 25px;\n  text-align: justify;\n  line-height: 175%;\n}\nbody main .padding-r .mail-attach {\n  margin: 25px 5px;\n}\nbody main .padding-r .mail-attach .divider {\n  margin-bottom: 10px;\n}\n", ""]);
 
 // exports
 

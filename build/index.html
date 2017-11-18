@@ -3,24 +3,79 @@
 <head>
     <title>Ethereum Mail</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <script src="./app.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
-    <h1>Ethereum Mail</h1>
-    <div>Public Key: <span id="public_key"></span></div>
-    <button onclick="App.newUser();">Register new key pair</button><br><br>
-    IPFS Host: <input type="text" id="ipfsHost" value="34.228.168.120" /><br><br>
-    To: <input id="to" placeholder="" /><br>
-    Message: <textarea id="message"></textarea>
-    <button onclick="App.sendMail();">Send ethereum mail</button>
-    <br>
-    <table>
-        <thead>
-            <tr>From</tr>
-            <tr>Message</tr>
-        </thead>
-        <tbody id="messages">
-        </tbody>
-    </table>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Ethereum Mail</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#" onclick="App.showInfo();" id="navEthereumAddress"></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">add</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating blue"><i class="material-icons">enhanced_encryption</i></a></li>
+            <li><a class="btn-floating blue"><i class="material-icons">email</i></a></li>
+        </ul>
+    </div>
+
+    <main>
+        <!--  -->
+        <div class="row stage">
+
+            <!-- mail overview -start -->
+            <div class="col s12 m4 l4 padding-l">
+                <div class="collapsible-header blue white-text">
+                    <i class="material-icons">move_to_inbox</i>Inbox
+                </div>
+                <!-- mail-list - start -->
+                <ul id="content-l" class="scrollbar-content collection z-depth-1">
+
+                </ul>
+            </div>
+            <!-- mail overview - end -->
+
+            <!-- detail view - start -->
+            <div class="col s12 m8 l8 padding-r">
+                <ul class="white collapsible mail-top" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header blue white-text">
+                            <i class="material-icons">face</i>
+                            0x627306090abaB3A6e1400e9345bC60c78a8BEf57
+                        </div>
+                    </li>
+
+                    <li>
+                        <!-- mail content - start -->
+                        <div class="mail-text">
+                            <p>Hello</p>
+                        </div>
+                        <!-- mail content - end -->
+                    </li>
+                </ul>
+            </div>
+            <!-- detail view - end -->
+        </div>
+
+    </main>
+    <!-- Compiled and minified JavaScript -->
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="./app.js"></script>
+
 </body>
 </html>
