@@ -16,7 +16,6 @@ require('sweetalert2/dist/sweetalert2.min.css')
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts)
-let messages = {}
 
 function allEvents (_to, ev, cb) {
   ev({ to: _to }, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
@@ -33,7 +32,7 @@ window.App = {
     let mail
     let isConnected = true
     try {
-      mail = await Mail.deployed();
+      mail = await Mail.deployed()
     }
     catch (e) {
       swal('Incorrect Network', 'Please connect to the rinkeby network to continue', 'error')
@@ -50,13 +49,13 @@ window.App = {
       const account = accounts[0]
       const mail = await Mail.deployed()
       const pubKey = await mail.getPub.call(account, { from: account })
-      const priv = window.localStorage.getItem('private');
-      if(priv === null || pubKey === '') {
+      const priv = window.localStorage.getItem('private')
+      if (priv === null || pubKey === '') {
         swal('Welcome!', 'Please click new key to generate a keypair locally, you may have lost your old one, or you may be a new user', 'info')
       }
       else {
         $('#navEthereumAddress').html(accounts[0])
-        App.getMail();
+        App.getMail()
       }
     })
   },
@@ -78,38 +77,35 @@ window.App = {
   },
 
   view: async (address) => {
-    $("#response_section").css('display', 'block');
-    $("#message_address").html(address);
+    $('#response_section').css('display', 'block')
+    $('#message_address').html(address)
 
     web3.eth.getAccounts(async (err, accounts) => {
-      const mail = await Mail.deployed();
-      $("#message_text").html('');
-      ipfs.setProvider({ host: '34.228.168.120', port: '5001' });
-      mail.Mail({ to: accounts[0], from: address }, { fromBlock: '1261550', toBlock: 'pending' }).get((error, results) => {
-        if(error) console.log(error);
-
-        results.forEach((result) => {
-          const hash = result.args.hash;
-          ipfs.catText(hash, (err, data) => {
-            if (data) {
-              App.decrypt(data).then((decrypted) => {
-                $('#message_text').append(`<p>> ${decrypted}</p>`);
-              });
-            }
-            if (err) {
-              console.log(err)
-            }
-          })
+      const mail = await Mail.deployed()
+      $('#message_text').html('')
+      let store = JSON.parse($("#data").html());
+      const data = store[address];
+      data.forEach((message) => {
+        App.decrypt(message).then((decrypted) => {
+          $('#message_text').append(`<p>> ${decrypted}</p>`)
         })
       })
     })
-
   },
 
   getMail: async () => {
     web3.eth.getAccounts(async (err, accounts) => {
       const mail = await Mail.deployed()
       allEvents(accounts[0], mail.Mail, (err, email) => {
+        const hash = email.args.hash
+        ipfs.setProvider({ host: '34.228.168.120', port: '5001' })
+        ipfs.catText(hash, (err, data) => {
+          let store = JSON.parse($("#data").html());
+          if(store[email.args.from] == undefined)
+            store[email.args.from] = [];
+          store[email.args.from].push(data);
+          $("#data").html(JSON.stringify(store));
+        });
         if ($('#inbox_' + email.args.from).length === 0) {
           $('#content-l').append(`
 							<li id="inbox_${email.args.from}" onclick="App.view('${email.args.from}');" class="income-box-mail collection-item avatar new-mail bold">
@@ -135,7 +131,7 @@ window.App = {
         ipfs.add(encrypted, (err, hash) => {
           if (hash) {
             mail.sendMail(to, hash, { from: accounts[0] }).then((result) => {
-              console.log(result);
+              console.log(result)
             })
           }
           if (err) console.log(err)
@@ -170,9 +166,6 @@ window.App = {
       return 'unable to decrypt communication'
   },
 
-  showInfo: function () {
-
-  }
 
 }
 
