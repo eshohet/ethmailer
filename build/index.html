@@ -20,15 +20,7 @@
         </div>
     </nav>
 
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large red">
-            <i class="large material-icons">add</i>
-        </a>
-        <ul>
-            <li><a class="btn-floating blue"><i class="material-icons">enhanced_encryption</i></a></li>
-            <li><a class="btn-floating blue"><i class="material-icons">email</i></a></li>
-        </ul>
-    </div>
+
 
     <main>
         <!--  -->
@@ -52,16 +44,33 @@
                     <li>
                         <div class="collapsible-header blue white-text">
                             <i class="material-icons">face</i>
-                            0x627306090abaB3A6e1400e9345bC60c78a8BEf57
+                            <span id="message_address">From address</span>
                         </div>
                     </li>
 
                     <li>
                         <!-- mail content - start -->
-                        <div class="mail-text">
-                            <p>Hello</p>
+                        <div class="mail-text" id="message_text">
                         </div>
                         <!-- mail content - end -->
+                    </li>
+                    <li id="response_section" style="display: none">
+                        <div class="row">
+                            <form class="col s12">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <textarea id="response" class="materialize-textarea"></textarea>
+                                        <label for="response">Response</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s3">
+                                        <a href="javascript:App.sendMsg();" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -69,6 +78,52 @@
         </div>
 
     </main>
+
+    <!-- Modal Structure -->
+    <div id="new_message" class="modal">
+        <div class="modal-content">
+            <h4>Encrypted Email</h4>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-field inline col s12">
+                                <input id="to" value="" type="text" class="validate">
+                                <label for="to">Ethereum Address</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-field col inline s12">
+                                <textarea id="message" value="" class="materialize-textarea"></textarea>
+                                <label for="message">Contents to be encrypted</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <a href="javascript:App.newMail();" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">add</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating blue "><i class="material-icons">enhanced_encryption</i></a></li>
+            <li><a href="#new_message" class="btn-floating blue modal-trigger"><i class="material-icons">email</i></a></li>
+        </ul>
+    </div>
+
     <!-- Compiled and minified JavaScript -->
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -76,6 +131,14 @@
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="./app.js"></script>
+    <script>
+      $(document).ready(function() {
+        Materialize.updateTextFields();
+        $('.modal').modal();
+      });
+    </script>
+
+
 
 </body>
 </html>

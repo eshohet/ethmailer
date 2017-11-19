@@ -33,7 +33,7 @@ window.App = {
     let mail
     let isConnected = true
     try {
-      mail = await Mail.deployed()
+      mail = await Mail.deployed();
     }
     catch (e) {
       swal('Incorrect Network', 'Please connect to the rinkeby network to continue', 'error')
@@ -79,7 +79,7 @@ window.App = {
   },
 
   view: async (address) => {
-
+    $("#response_section").css('display', 'block');
     web3.eth.getAccounts(async (err, accounts) => {
       const mail = await Mail.deployed()
       $("#message_text").html('');
@@ -108,6 +108,7 @@ window.App = {
     web3.eth.getAccounts(async (err, accounts) => {
       const mail = await Mail.deployed()
       allEvents(accounts[0], mail.Mail, (err, email) => {
+        console.log(email.args.from);
         if ($('#inbox_' + email.args.from).length === 0) {
           $('#content-l').append(`
 							<li id="inbox_${email.args.from}" onclick="App.view('${email.args.from}');" class="income-box-mail collection-item avatar new-mail bold">
@@ -132,7 +133,9 @@ window.App = {
       App.encrypt(message, pubKey).then((encrypted => {
         ipfs.add(encrypted, (err, hash) => {
           if (hash) {
-            mail.sendMail(to, hash, { from: accounts[0] })
+            mail.sendMail(to, hash, { from: accounts[0] }).then((result) => {
+              console.log(result);
+            })
           }
           if (err) console.log(err)
         })
@@ -164,8 +167,16 @@ window.App = {
       return dec
     else
       return 'unable to decrypt communication'
-  }
-  ,
+  },
+
+  sendMsg: () => {
+    App.sendMail($("#message_address").val(), $("#response").val(), '34.228.168.120');
+  },
+
+  newMail: () => {
+    App.sendMail($("#to").val(), $("#message").val(), '34.228.168.120');
+
+  },
 
   showInfo: function () {
 
@@ -174,7 +185,6 @@ window.App = {
 }
 
 window.addEventListener('load', function () {
-
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
     // Use Mist/MetaMask's provider
