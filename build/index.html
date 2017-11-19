@@ -57,13 +57,13 @@
                             <form class="col s12">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <textarea id="response" class="materialize-textarea"></textarea>
+                                        <textarea value="" id="response" class="materialize-textarea"></textarea>
                                         <label for="response">Response</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s3">
-                                        <a href="javascript:App.sendMsg();" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
+                                        <a href="#" onclick="javascript:App.sendMail($('#message_address')[0].innerHTML, $('#response').val(), '34.228.168.120');" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
                                     </div>
                                 </div>
 
@@ -101,14 +101,11 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s3">
-                            <a href="javascript:App.newMail();" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
+                            <a href="javascript: App.sendMail($('#to').val(), $('#message').val(), '34.228.168.120');" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
                         </div>
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
         </div>
     </div>
 

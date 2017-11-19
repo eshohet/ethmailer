@@ -172,11 +172,6 @@ window.App = {
     App.sendMail($("#message_address")[0].html(), $("#response").val(), '34.228.168.120');
   },
 
-  newMail: () => {
-    App.sendMail($("#to").val(), $("#message").val(), '34.228.168.120');
-
-  },
-
   showInfo: function () {
 
   }
