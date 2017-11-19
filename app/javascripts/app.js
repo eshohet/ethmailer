@@ -50,8 +50,9 @@ window.App = {
       const account = accounts[0]
       const mail = await Mail.deployed()
       const pubKey = await mail.getPub.call(account, { from: account })
-      if (pubKey === '') {
-        swal('Welcome!', 'Please click new key to generate a keypair locally', 'info')
+      const priv = window.localStorage.getItem('private');
+      if (pubKey === '' ||  priv === null) {
+        swal('Welcome!', 'Please click new key to generate a keypair locally, you may have lost your old one, or you may be a new user', 'info')
       }
       else {
         $('#navEthereumAddress').html(accounts[0])
