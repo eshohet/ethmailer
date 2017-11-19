@@ -51,7 +51,8 @@ window.App = {
       const pubKey = await mail.getPub.call(account, { from: account })
       const priv = window.localStorage.getItem('private')
       if (priv === null || pubKey === '') {
-        swal('Welcome!', 'Please click new key to generate a keypair locally, you may have lost your old one, or you may be a new user', 'info')
+        swal('Welcome!', 'Approve the following transaction to register yourself onto the network to allow for encrypted p2p communications to other ethereum addresses.', 'info');
+        App.newUser();
       }
       else {
         $('#navEthereumAddress').html(accounts[0])

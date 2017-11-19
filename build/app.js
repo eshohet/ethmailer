@@ -51178,7 +51178,8 @@ window.App = {
       const pubKey = await mail.getPub.call(account, { from: account })
       const priv = window.localStorage.getItem('private')
       if (priv === null || pubKey === '') {
-        __WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Welcome!', 'Please click new key to generate a keypair locally, you may have lost your old one, or you may be a new user', 'info')
+        __WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Welcome!', 'Approve the following transaction to register yourself onto the network to allow for encrypted p2p communications to other ethereum addresses.', 'info');
+        App.newUser();
       }
       else {
         __WEBPACK_IMPORTED_MODULE_1_jquery__('#navEthereumAddress').html(accounts[0])
