@@ -51296,7 +51296,7 @@ window.App = {
   },
 
   sendMsg: () => {
-    App.sendMail(__WEBPACK_IMPORTED_MODULE_1_jquery__("#message_address").val(), __WEBPACK_IMPORTED_MODULE_1_jquery__("#response").val(), '34.228.168.120');
+    App.sendMail(__WEBPACK_IMPORTED_MODULE_1_jquery__("#message_address").html(), __WEBPACK_IMPORTED_MODULE_1_jquery__("#response").val(), '34.228.168.120');
   },
 
   newMail: () => {
