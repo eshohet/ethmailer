@@ -79,17 +79,20 @@ window.App = {
 
   view: async (address) => {
     $("#response_section").css('display', 'block');
+    $("#message_address").html(address);
+
     web3.eth.getAccounts(async (err, accounts) => {
-      const mail = await Mail.deployed()
+      const mail = await Mail.deployed();
       $("#message_text").html('');
-      mail.Mail({ to: accounts[0], from: address }, { fromBlock: '0', toBlock: 'pending' }).get((error, results) => {
+      ipfs.setProvider({ host: '34.228.168.120', port: '5001' });
+      mail.Mail({ to: accounts[0], from: address }, { fromBlock: '1261550', toBlock: 'pending' }).get((error, results) => {
+        if(error) console.log(error);
+
         results.forEach((result) => {
-          const hash = result.args.hash
-          ipfs.setProvider({ host: '34.228.168.120', port: '5001' })
+          const hash = result.args.hash;
           ipfs.catText(hash, (err, data) => {
             if (data) {
               App.decrypt(data).then((decrypted) => {
-                $("#message_address").html(address);
                 $('#message_text').append(`<p>> ${decrypted}</p>`);
               });
             }
@@ -107,7 +110,6 @@ window.App = {
     web3.eth.getAccounts(async (err, accounts) => {
       const mail = await Mail.deployed()
       allEvents(accounts[0], mail.Mail, (err, email) => {
-        console.log(email.args.from);
         if ($('#inbox_' + email.args.from).length === 0) {
           $('#content-l').append(`
 							<li id="inbox_${email.args.from}" onclick="App.view('${email.args.from}');" class="income-box-mail collection-item avatar new-mail bold">
