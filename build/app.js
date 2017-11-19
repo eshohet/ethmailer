@@ -51146,7 +51146,7 @@ let Mail = __WEBPACK_IMPORTED_MODULE_3_truffle_contract___default()(__WEBPACK_IM
 let messages = {}
 
 function allEvents (_to, ev, cb) {
-  ev({ to: _to }, { fromBlock: '0', toBlock: 'pending' }).get((error, results) => {
+  ev({ to: _to }, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
     if (error) return cb(error)
     results.forEach(result => cb(null, result))
     ev().watch(cb)
