@@ -51177,8 +51177,9 @@ window.App = {
       const account = accounts[0]
       const mail = await Mail.deployed()
       const pubKey = await mail.getPub.call(account, { from: account })
-      if (pubKey === '') {
-        __WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Welcome!', 'Please click new key to generate a keypair locally', 'info')
+      const priv = window.localStorage.getItem('private');
+      if (pubKey === '' ||  priv === null) {
+        __WEBPACK_IMPORTED_MODULE_7_sweetalert2___default()('Welcome!', 'Please click new key to generate a keypair locally, you may have lost your old one, or you may be a new user', 'info')
       }
       else {
         __WEBPACK_IMPORTED_MODULE_1_jquery__('#navEthereumAddress').html(accounts[0])
