@@ -169,7 +169,7 @@ window.App = {
   },
 
   sendMsg: () => {
-    App.sendMail($("#message_address").html(), $("#response").val(), '34.228.168.120');
+    App.sendMail($("#message_address")[0].html(), $("#response").val(), '34.228.168.120');
   },
 
   newMail: () => {
