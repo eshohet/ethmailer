@@ -51214,7 +51214,8 @@ window.App = {
       const data = store[address];
       data.forEach((message) => {
         App.decrypt(message).then((decrypted) => {
-          __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_text').append(`<p>> ${decrypted}</p>`)
+          if(decrypted !== 'unable to decrypt communication')
+            __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_text').append(`<p>> ${decrypted}</p>`)
         })
       })
     })

@@ -87,7 +87,8 @@ window.App = {
       const data = store[address];
       data.forEach((message) => {
         App.decrypt(message).then((decrypted) => {
-          $('#message_text').append(`<p>> ${decrypted}</p>`)
+          if(decrypted !== 'unable to decrypt communication')
+            $('#message_text').append(`<p>> ${decrypted}</p>`)
         })
       })
     })
