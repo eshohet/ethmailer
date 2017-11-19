@@ -51143,7 +51143,7 @@ __webpack_require__(155)
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = __WEBPACK_IMPORTED_MODULE_3_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_6__Mail_json___default.a)
-
+window.ipfs = __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a;
 function allEvents (_to, ev, cb) {
   ev({to: _to}, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
     if (error) return cb(error)
@@ -51294,6 +51294,14 @@ window.App = {
       return 'unable to decrypt communication'
   },
 
+  decryptHash: async function(hash) {
+    __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a.setProvider({ host: '34.228.168.120', port: '5001' })
+    __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a.catText(hash, (err, data) => {
+      App.decrypt(data).then((decrypted) => {
+        console.log(decrypted);
+      })
+    });
+  }
 
 }
 

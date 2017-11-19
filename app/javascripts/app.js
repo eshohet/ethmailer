@@ -16,7 +16,7 @@ require('sweetalert2/dist/sweetalert2.min.css')
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
 let Mail = contract(mail_artifacts)
-
+window.ipfs = ipfs;
 function allEvents (_to, ev, cb) {
   ev({to: _to}, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
     if (error) return cb(error)
@@ -167,6 +167,14 @@ window.App = {
       return 'unable to decrypt communication'
   },
 
+  decryptHash: async function(hash) {
+    ipfs.setProvider({ host: '34.228.168.120', port: '5001' })
+    ipfs.catText(hash, (err, data) => {
+      App.decrypt(data).then((decrypted) => {
+        console.log(decrypted);
+      })
+    });
+  }
 
 }
 
