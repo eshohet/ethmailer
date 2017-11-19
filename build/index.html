@@ -57,7 +57,7 @@
                             <form class="col s12">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <textarea value="" id="response" class="materialize-textarea"></textarea>
+                                        <textarea id="response" class="materialize-textarea"></textarea>
                                         <label for="response">Response</label>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s3">
-                            <a href="javascript: App.sendMail($('#to').val(), $('#message').val(), '34.228.168.120');" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
+                            <a href="#" onclick="javascript: App.sendMail($('#to').val(), $('#message').val(), '34.228.168.120');" class="waves-effect waves-light blue btn"><i class="material-icons right">enhanced_encryption</i>Send Encrypted Email</a>
                         </div>
                     </div>
                 </form>

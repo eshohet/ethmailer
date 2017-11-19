@@ -168,10 +168,6 @@ window.App = {
       return 'unable to decrypt communication'
   },
 
-  sendMsg: () => {
-    App.sendMail($("#message_address")[0].html(), $("#response").val(), '34.228.168.120');
-  },
-
   showInfo: function () {
 
   }
