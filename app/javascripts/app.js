@@ -18,7 +18,7 @@ require('sweetalert2/dist/sweetalert2.min.css')
 let Mail = contract(mail_artifacts)
 
 function allEvents (_to, ev, cb) {
-  ev({ to: _to }, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
+  ev({to: _to}, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
     if (error) return cb(error)
     results.forEach(result => cb(null, result))
     ev().watch(cb)
@@ -80,17 +80,14 @@ window.App = {
   view: async (address) => {
     $('#response_section').css('display', 'block')
     $('#message_address').html(address)
-
-    web3.eth.getAccounts(async (err, accounts) => {
-      const mail = await Mail.deployed()
-      $('#message_text').html('')
-      let store = JSON.parse($("#data").html());
-      const data = store[address];
-      data.forEach((message) => {
-        App.decrypt(message).then((decrypted) => {
-          if(decrypted !== 'unable to decrypt communication')
-            $('#message_text').append(`<p>> ${decrypted}</p>`)
-        })
+    const mail = await Mail.deployed()
+    $('#message_text').html('')
+    let store = JSON.parse($("#data").html());
+    const data = store[address];
+    data.forEach((message) => {
+      App.decrypt(message).then((decrypted) => {
+        if(decrypted !== 'unable to decrypt communication')
+          $('#message_text').append(`<p>> ${decrypted}</p>`)
       })
     })
   },
@@ -98,7 +95,8 @@ window.App = {
   getMail: async () => {
     web3.eth.getAccounts(async (err, accounts) => {
       const mail = await Mail.deployed()
-      allEvents(accounts[0], mail.Mail, (err, email) => {
+      allEvents(accounts[0].toLowerCase(), mail.Mail, (err, email) => {
+        console.log(email.args.from, email.args.to, email.args.hash);
         const hash = email.args.hash
         ipfs.setProvider({ host: '34.228.168.120', port: '5001' })
         ipfs.catText(hash, (err, data) => {
@@ -126,6 +124,7 @@ window.App = {
 
   sendMail: async (to, message, ipfsHost) => {
     web3.eth.getAccounts(async (err, accounts) => {
+      to = to.toLowerCase();
       const mail = await Mail.deployed()
       const pubKey = await mail.getPub.call(to, { from: accounts[0] })
       ipfs.setProvider({ host: ipfsHost, port: '5001' })

@@ -51145,7 +51145,7 @@ __webpack_require__(155)
 let Mail = __WEBPACK_IMPORTED_MODULE_3_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_6__Mail_json___default.a)
 
 function allEvents (_to, ev, cb) {
-  ev({ to: _to }, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
+  ev({to: _to}, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
     if (error) return cb(error)
     results.forEach(result => cb(null, result))
     ev().watch(cb)
@@ -51207,17 +51207,14 @@ window.App = {
   view: async (address) => {
     __WEBPACK_IMPORTED_MODULE_1_jquery__('#response_section').css('display', 'block')
     __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_address').html(address)
-
-    web3.eth.getAccounts(async (err, accounts) => {
-      const mail = await Mail.deployed()
-      __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_text').html('')
-      let store = JSON.parse(__WEBPACK_IMPORTED_MODULE_1_jquery__("#data").html());
-      const data = store[address];
-      data.forEach((message) => {
-        App.decrypt(message).then((decrypted) => {
-          if(decrypted !== 'unable to decrypt communication')
-            __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_text').append(`<p>> ${decrypted}</p>`)
-        })
+    const mail = await Mail.deployed()
+    __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_text').html('')
+    let store = JSON.parse(__WEBPACK_IMPORTED_MODULE_1_jquery__("#data").html());
+    const data = store[address];
+    data.forEach((message) => {
+      App.decrypt(message).then((decrypted) => {
+        if(decrypted !== 'unable to decrypt communication')
+          __WEBPACK_IMPORTED_MODULE_1_jquery__('#message_text').append(`<p>> ${decrypted}</p>`)
       })
     })
   },
@@ -51225,7 +51222,8 @@ window.App = {
   getMail: async () => {
     web3.eth.getAccounts(async (err, accounts) => {
       const mail = await Mail.deployed()
-      allEvents(accounts[0], mail.Mail, (err, email) => {
+      allEvents(accounts[0].toLowerCase(), mail.Mail, (err, email) => {
+        console.log(email.args.from, email.args.to, email.args.hash);
         const hash = email.args.hash
         __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a.setProvider({ host: '34.228.168.120', port: '5001' })
         __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a.catText(hash, (err, data) => {
@@ -51253,6 +51251,7 @@ window.App = {
 
   sendMail: async (to, message, ipfsHost) => {
     web3.eth.getAccounts(async (err, accounts) => {
+      to = to.toLowerCase();
       const mail = await Mail.deployed()
       const pubKey = await mail.getPub.call(to, { from: accounts[0] })
       __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a.setProvider({ host: ipfsHost, port: '5001' })
