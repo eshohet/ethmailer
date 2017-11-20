@@ -51145,7 +51145,7 @@ __webpack_require__(155)
 let Mail = __WEBPACK_IMPORTED_MODULE_3_truffle_contract___default()(__WEBPACK_IMPORTED_MODULE_6__Mail_json___default.a)
 window.ipfs = __WEBPACK_IMPORTED_MODULE_4_ipfs_js___default.a;
 function allEvents (_to, ev, cb) {
-  ev({to: _to}, { fromBlock: '1261550', toBlock: 'latest' }).get((error, results) => {
+  ev({to: _to}, { fromBlock: '1261550', toBlock: 'pending' }).get((error, results) => {
     if (error) return cb(error)
     results.forEach(result => cb(null, result))
     ev().watch(cb)
